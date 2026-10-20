@@ -1,0 +1,95 @@
+/* Hallmark · genre: atmospheric (glass override, user-requested) · macrostructure: custom bespoke "Factory"
+ * theme: custom "Molten Steel" · vibe: "after-hours iron, molten gold, octagon light"
+ * paper oklch(14.5% 0.008 85) · accent oklch(84% 0.165 88) logo-yellow · Tomorrow 800 + Geist
+ * axes: dark / squared-geometric-sans / warm · nav: N5 floating pill + overlay · footer: Ft5 statement
+ */
+@font-face{font-family:"Tomorrow";src:url(../fonts/tomorrow-latin-600-normal.woff2) format("woff2");font-weight:600;font-style:normal;font-display:block}
+@font-face{font-family:"Tomorrow";src:url(../fonts/tomorrow-latin-700-normal.woff2) format("woff2");font-weight:700;font-style:normal;font-display:block}
+@font-face{font-family:"Tomorrow";src:url(../fonts/tomorrow-latin-800-normal.woff2) format("woff2");font-weight:800;font-style:normal;font-display:block}
+@font-face{font-family:"Geist";src:url(../fonts/geist-var.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:block}
+@font-face{font-family:"JB Mono";src:url(../fonts/jbmono-var.woff2) format("woff2");font-weight:100 800;font-style:normal;font-display:swap}
+
+:root{
+  /* ---- type ---- */
+  --font-display:"Tomorrow",ui-sans-serif,system-ui,sans-serif;
+  --font-body:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"JB Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  --text-xs:.75rem; --text-sm:.875rem; --text-base:1rem; --text-md:1.125rem; --text-lg:1.375rem;
+  --text-xl:clamp(1.5rem,1.1rem + 1.4vw,2.125rem);
+  --text-2xl:clamp(2rem,1.3rem + 2.6vw,3.5rem);
+  --text-3xl:clamp(2.5rem,1.4rem + 4.2vw,5.25rem);
+  --text-display:clamp(3rem,1.2rem + 7.4vw,9.5rem);
+  --text-display-s:clamp(2.4rem,1.2rem + 5vw,6.5rem);
+
+  /* ---- space (4pt) ---- */
+  --space-3xs:4px; --space-2xs:8px; --space-xs:12px; --space-sm:16px; --space-md:24px; --space-lg:32px;
+  --space-xl:48px; --space-2xl:64px; --space-3xl:96px; --space-4xl:144px;
+  --gutter:clamp(16px,4vw,56px);
+  --maxw:1440px;
+
+  /* ---- shape ---- */
+  --radius-sm:10px; --radius-md:16px; --radius-lg:24px; --radius-xl:32px; --radius-pill:999px;
+  --rule-hair:1px;
+
+  /* ---- motion ---- */
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-in:cubic-bezier(.7,0,.84,0);
+  --ease-in-out:cubic-bezier(.65,0,.35,1);
+  --dur-micro:120ms; --dur-short:240ms; --dur-long:560ms; --dur-xl:1100ms;
+
+  /* ---- brand constants (theme-independent) ---- */
+  --color-gold:oklch(84% .165 88);          /* logo yellow */
+  --color-gold-hot:oklch(90% .14 95);       /* molten highlight */
+  --color-ember:oklch(70% .18 55);          /* crest glow, 3D only */
+  --color-signal:oklch(60% .2 25);          /* the red X lights — 3D + error only */
+  --color-night:oklch(12.5% .008 85);       /* always-dark chapters */
+  --color-night-2:oklch(17% .009 85);
+  --color-night-ink:oklch(95% .01 90);
+  --color-night-mute:oklch(72% .01 85);
+  --color-success:oklch(74% .15 150);
+  --color-wa:oklch(72% .17 152);
+
+  color-scheme:dark;
+  /* ---- dark (default) ---- */
+  --color-paper:oklch(14.5% .008 85);
+  --color-paper-2:oklch(18% .009 85);
+  --color-paper-3:oklch(22.5% .01 85);
+  --color-rule:oklch(30% .01 85);
+  --color-rule-soft:oklch(24% .01 85);
+  --color-neutral:oklch(60% .01 85);
+  --color-muted:oklch(74% .01 85);
+  --color-ink:oklch(95% .01 90);
+  --color-accent:var(--color-gold);
+  --color-accent-text:var(--color-gold);     /* accent used as text */
+  --color-on-accent:oklch(16% .02 85);
+  --color-focus:oklch(88% .16 92);
+  --glass-bg:oklch(16% .008 85 / .52);
+  --glass-bg-strong:oklch(15% .008 85 / .78);
+  --glass-line:oklch(100% 0 0 / .11);
+  --glass-hi:oklch(100% 0 0 / .07);
+  --shadow-lift:0 30px 60px -30px oklch(0% 0 0 / .7);
+  --logo-src:url(../media/img/logo-on-dark.webp);
+}
+
+:root[data-theme="light"]{
+  color-scheme:light;
+  --color-paper:oklch(96.5% .012 85);
+  --color-paper-2:oklch(93% .015 85);
+  --color-paper-3:oklch(89.5% .017 85);
+  --color-rule:oklch(80% .015 85);
+  --color-rule-soft:oklch(87% .014 85);
+  --color-neutral:oklch(48% .015 85);
+  --color-muted:oklch(38% .014 85);
+  --color-ink:oklch(17% .012 80);
+  --color-accent:var(--color-gold);
+  --color-accent-text:oklch(52% .12 80);
+  --color-on-accent:oklch(16% .02 85);
+  --color-focus:oklch(45% .13 75);
+  --glass-bg:oklch(98% .01 85 / .58);
+  --glass-bg-strong:oklch(97% .01 85 / .82);
+  --glass-line:oklch(20% .01 85 / .12);
+  --glass-hi:oklch(100% 0 0 / .6);
+  --shadow-lift:0 30px 60px -34px oklch(30% .03 80 / .45);
+  --logo-src:url(../media/img/logo-on-light.webp);
+}
