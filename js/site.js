@@ -411,7 +411,7 @@
     const start = el => {
       const kind = el.dataset.scene;
       const mod = kind === 'dumbbell' ? 'scene-dumbbell.js' : kind === 'machine' ? 'scene-machine.js' : 'scene-halo.js';
-      import('./' + mod).then(m => m.mount(el)).catch(err => { console.warn('[FM] 3D off:', err); el.classList.add('no-3d'); });
+      import('./' + mod + '?v=' + ((window.FM_V || {})[kind === 'dumbbell' ? 'd' : kind === 'machine' ? 'm' : 'h'] || '1')).then(m => m.mount(el)).catch(err => { console.warn('[FM] 3D off:', err); el.classList.add('no-3d'); });
     };
     if (!('IntersectionObserver' in window)) { els.forEach(start); return; }
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); start(e.target); } }), { rootMargin: '600px 0px' });
