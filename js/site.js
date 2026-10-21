@@ -43,18 +43,32 @@
 
   /* ------------------------------------------------------------ theme (circle wipe from the toggle) */
   function theme() {
-    $$('.theme-t').forEach(btn => btn.addEventListener('click', e => {
-      const next = root.dataset.theme === 'light' ? 'dark' : 'light';
-      const apply = () => { root.dataset.theme = next; store.set('fm-theme', next); $$('.theme-t').forEach(b => b.setAttribute('aria-pressed', String(next === 'light'))); window.dispatchEvent(new CustomEvent('fm:theme', { detail: next })); };
-      if (!document.startViewTransition || RM) { apply(); return; }
-      const r = btn.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+    const btn = $('.theme-b'), pop = $('.theme-pop'); if (!btn || !pop) return;
+    const mq = matchMedia('(prefers-color-scheme: light)');
+    const resolve = pref => pref === 'system' ? (mq.matches ? 'light' : 'dark') : pref;
+    const label = { dark: 'Dark', light: 'Light', system: 'Auto' };
+    const paint = () => {
+      const pref = root.dataset.themePref || 'dark';
+      $('[data-theme-label]', btn).textContent = label[pref];
+      $$('[data-theme-set]', pop).forEach(o => o.setAttribute('aria-checked', String(o.dataset.themeSet === pref)));
+    };
+    const apply = (pref, from) => {
+      const next = resolve(pref), changed = next !== root.dataset.theme;
+      const go = () => { root.dataset.themePref = pref; root.dataset.theme = next; store.set('fm-theme', pref); paint(); if (changed) window.dispatchEvent(new CustomEvent('fm:theme', { detail: next })); };
+      if (!changed || !document.startViewTransition || RM || !from) { go(); return; }
+      const r = from.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
       const end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-      root.classList.add('vt');
-      const t = document.startViewTransition(apply);
+      const t = document.startViewTransition(go);
       t.ready.then(() => root.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] }, { duration: 750, easing: 'cubic-bezier(.65,0,.35,1)', pseudoElement: '::view-transition-new(root)' }));
-      t.finished.finally(() => root.classList.remove('vt'));
-    }));
-    $$('.theme-t').forEach(b => b.setAttribute('aria-pressed', String(root.dataset.theme === 'light')));
+    };
+    const set = on => { root.classList.toggle('theme-open', on); btn.setAttribute('aria-expanded', String(on)); pop.setAttribute('aria-hidden', String(!on)); pop.inert = !on; if (on) { const c = $('[aria-checked="true"]', pop); (c || $('button', pop)).focus({ preventScroll: true }); } };
+    pop.inert = true;
+    btn.addEventListener('click', e => { e.stopPropagation(); set(!root.classList.contains('theme-open')); });
+    $$('[data-theme-set]', pop).forEach(o => o.addEventListener('click', () => { apply(o.dataset.themeSet, btn); setTimeout(() => set(false), 160); }));
+    document.addEventListener('click', e => { if (root.classList.contains('theme-open') && !e.target.closest('.tdock')) set(false); });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('theme-open')) { set(false); btn.focus(); } });
+    mq.addEventListener && mq.addEventListener('change', () => { if (root.dataset.themePref === 'system') apply('system'); });
+    paint();
   }
 
   /* ------------------------------------------------------------ smooth scroll */
@@ -188,31 +202,20 @@
       });
     }, { passive: true });
     const m = $('.menu'), btn = $('.menu-t'); if (!m || !btn) return;
-    const peek = $('.menu__peek');
     let opener = null;
     const set = on => {
       root.classList.toggle('menu-open', on); btn.setAttribute('aria-expanded', String(on)); m.setAttribute('aria-hidden', String(!on));
-      m.inert = !on; lock(on); n.classList.remove('is-hidden');
-      if (on) { opener = document.activeElement; setTimeout(() => { const f = $('.menu__list a', m); f && f.focus({ preventScroll: true }); }, 400); const v = peek && $('video.on', peek); v && v.play().catch(() => { }); }
-      else { $$('video', m).forEach(v => v.pause()); opener && opener.focus && opener.focus({ preventScroll: true }); }
+      m.inert = !on; n.classList.remove('is-hidden');
+      if (on) { opener = document.activeElement; setTimeout(() => { const f = $('.menu__list a', m); f && f.focus({ preventScroll: true }); }, 220); }
+      else if (opener && m.contains(document.activeElement)) opener.focus({ preventScroll: true });
     };
     m.inert = true;
-    btn.addEventListener('click', () => set(!root.classList.contains('menu-open')));
-    addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('menu-open')) set(false); });
+    btn.addEventListener('click', e => { e.stopPropagation(); set(!root.classList.contains('menu-open')); });
+    document.addEventListener('click', e => { if (root.classList.contains('menu-open') && !e.target.closest('.menu') && !e.target.closest('.menu-t')) set(false); });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('menu-open')) { set(false); btn.focus(); } });
+    addEventListener('scroll', () => { if (root.classList.contains('menu-open') && Math.abs(scrollY - openedAt) > 120) set(false); }, { passive: true });
+    let openedAt = 0; btn.addEventListener('click', () => { openedAt = scrollY; });
     $$('.menu__list a', m).forEach(a => a.addEventListener('click', () => { if (fileOf(new URL(a.href).pathname) === fileOf(location.pathname)) set(false); }));
-    if (peek && FINE) {
-      const items = $$('[data-peek]', peek), cap = $('figcaption', peek);
-      $$('.menu__list a', m).forEach(a => {
-        const show = () => {
-          const k = a.dataset.peekKey; items.forEach(it => {
-            const on = it.dataset.peek === k; it.classList.toggle('on', on);
-            if (it.tagName === 'VIDEO') { if (on) { if (!it.src && it.dataset.src) it.src = it.dataset.src; it.play().catch(() => { }); } else it.pause(); }
-          });
-          if (cap) cap.textContent = a.querySelector('.t').textContent;
-        };
-        a.addEventListener('mouseenter', show); a.addEventListener('focus', show);
-      });
-    }
   }
 
   /* ------------------------------------------------------------ hero video: right cut for the screen, starts during the preloader */
@@ -343,7 +346,7 @@
       [/^(hi|hello|hey|salam|aoa|assalam|slam|asalam)/i, () => `Wa alaikum assalam! I'm the front desk. Ask me about timings, fees, coaches, the ladies' side or how to visit.`],
       [/tim(e|ing)|hour|open|close|band|khul|kab|schedule|raat|night|morning|subah/i, () => { const s = F.status(); return `<b>${s.text}.</b><br>${hoursText()}`; }],
       [/where|locat|address|kahan|kidhar|map|direction|nazimabad|liaquatabad|area/i, () => `We're at ${F.address}. <a href="${F.maps}" target="_blank" rel="noopener">Open in Google Maps</a>.`],
-      [/fee|price|rate|cost|kitn|charge|package|membership|plan|paise|rupe/i, () => `Straight answer: we're not the cheapest gym in town, on purpose. The rate depends on the plan and whether you want a coach, and the desk shares today's numbers on WhatsApp. ${waLink('Assalam o Alaikum, what are the current membership rates?', 'Ask for today’s rates')}`],
+      [/fee|price|rate|cost|kitn|charge|package|membership|plan|paise|rupe/i, () => `Rates depend on the plan and whether you want a coach, so the desk shares today's numbers directly on WhatsApp. ${waLink('Assalam o Alaikum, what are the current membership rates?', 'Ask for today’s rates')}`],
       [/lad(y|ies)|women|woman|female|girl|larki|aurat|sister|behen/i, () => `Women train on our floor every day, with female coaches on it too. Ask the desk which hours suit you. ${waLink('Assalam o Alaikum, I want to ask about training for women.', 'Ask on WhatsApp')}`],
       [/coach|trainer|personal|\bpt\b|sikha|guide/i, () => `Every member gets coaches on the floor. Personal training is one-to-one with a programme built around you. <a href="coaches.html">Meet the coaches</a> or ${waLink('Assalam o Alaikum, I want personal training.', 'book a PT intro')}.`],
       [/equip|machine|hammer|nautilus|dumbbell|weight|cardio|treadmill|cycle|turf|rig/i, () => `Hammer Strength dumbbells, Nautilus machines, Smith and squat racks, a turf lane with a rig, and a cardio deck. <a href="floor.html">See the floor</a>.`],
@@ -363,11 +366,12 @@
     if (prior) log.innerHTML = prior; else add('b', `Assalam o Alaikum. I'm the Fit Monster front desk. <b>${F.status().text}.</b> What do you want to know?`);
     const set = on => {
       root.classList.toggle('chat-open', on); fab.setAttribute('aria-expanded', String(on)); c.setAttribute('aria-hidden', String(!on)); c.inert = !on;
-      if (on) { setTimeout(() => { if (FINE) inp.focus({ preventScroll: true }); log.scrollTop = log.scrollHeight; }, 250); if (!FINE) lock(true); }
-      else { lock(false); fab.focus({ preventScroll: true }); }
+      if (on) { setTimeout(() => { if (FINE) inp.focus({ preventScroll: true }); log.scrollTop = log.scrollHeight; }, 250); }
+      else fab.focus({ preventScroll: true });
     };
     c.inert = true;
     fab.addEventListener('click', () => set(true));
+    document.addEventListener('pointerdown', e => { if (root.classList.contains('chat-open') && !e.target.closest('.chat') && !e.target.closest('.fab') && !e.target.closest('[data-open-chat]')) set(false); });
     $('.chat__x', c).addEventListener('click', () => set(false));
     addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('chat-open')) set(false); });
     $$('.chip[data-q]', c).forEach(b => b.addEventListener('click', () => ask(b.dataset.q)));
@@ -420,7 +424,7 @@
     const els = $$('[data-scene]'); if (!els.length) return;
     const start = el => {
       const kind = el.dataset.scene;
-      const mod = kind === 'dumbbell' ? 'scene-dumbbell.js' : 'scene-halo.js';
+      const mod = kind === 'dumbbell' ? 'scene-dumbbell.js' : kind === 'machine' ? 'scene-machine.js' : 'scene-halo.js';
       import('./' + mod).then(m => m.mount(el)).catch(err => { console.warn('[FM] 3D off:', err); el.classList.add('no-3d'); });
     };
     if (!('IntersectionObserver' in window)) { els.forEach(start); return; }

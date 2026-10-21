@@ -47,6 +47,14 @@ Palette is OKLCH, warm-tinted (hue 85), one accent. Light theme is warm bone wit
 - **v3 · 9.3/10 ✅** — **The Halo**: every photo of this gym has the same ceiling — white octagon LED rings and red X lights. Rebuilt in Three.js as a tunnel you fly through on scroll; the floor zones (iron, machines, turf & rig, cardio) arrive as glass cards between rings. It's their room, not a stock effect.
 - **v4 (supporting) · 9/10 ✅** — a Hammer Strength–style round dumbbell (their rack) on Training and Membership: drag to turn it, pick a grip and it rotates to show which biceps head that grip trains (from their own infographic). Ambient Halo rings head the inner pages, so 3D is on every page without cost on every scroll.
 
+### The machine (round 2)
+- **v1 · 7/10** — a static 3D machine to rotate. Looks like a product viewer.
+- **v2 · 9.2/10 ✅** — a lat-pulldown tower that actually works: pick the pin, the plates above it lift on their guide rods, pulleys turn, the cable runs and the bar comes down, with a live load / plates / reps readout. Scroll orbits the camera and moves the pin; chips set it by hand.
+
+### Chrome (round 2)
+- Menu is a compact dropdown under the nav with page thumbnails, not a full-screen takeover. Theme switch lives in a labelled pill at the bottom-left with a three-option popover (Dark / Light / Auto). Chat sits bottom-right and opens as a small card on phones.
+- The campaign line stays in its own chapter; the hero, footer and membership page have their own copy.
+
 ### Glass
 - **v1 · 6/10** — glass on every card. Muddy, slow on phones.
 - **v2 · 9/10 ✅** — glass only where something moves behind it (video, 3D, photos): nav pill, hero stat bar, Halo cards, chat, menu. Solid surfaces everywhere else. Two tiers, one blur value.

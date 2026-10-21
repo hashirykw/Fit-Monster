@@ -7,7 +7,7 @@ Static HTML/CSS/JS, no build step. Deploys to Vercel as-is (`vercel.json` turns 
 ## Pages
 | File | What's on it |
 | --- | --- |
-| `index.html` | Molten-gold preloader that dives through the O, triptych video hero, "We're sorry" campaign chapter, the Halo 3D flythrough, disciplines, reels rail, coaches, Google reviews, timings + map |
+| `index.html` | Molten-gold preloader that dives through the O, triptych video hero, animated 3D lat-pulldown machine (scroll to work the stack), "We're sorry" campaign chapter, the Halo 3D flythrough, disciplines, reels rail, coaches, Google reviews, timings + map |
 | `training.html` | Four programmes, the Back Series exercise loops, 3D arm lab (drag the dumbbell, pick a biceps head and a weight) |
 | `coaches.html` | Team, coaching rules, personal training steps, coach reels |
 | `floor.html` | Filterable gallery of every photo and reel, with lightbox |
@@ -22,6 +22,7 @@ Static HTML/CSS/JS, no build step. Deploys to Vercel as-is (`vercel.json` turns 
 - `js/site.js` — preloader, page curtain, theme switch, smooth scroll, reveals, menu, Apology chapter, reels/lightbox, front-desk chat, forms.
 - `js/scene-halo.js` — Three.js octagon-light tunnel (home) and ambient rings (inner page heroes).
 - `js/scene-dumbbell.js` — Three.js dumbbell (training, 404).
+- `js/scene-machine.js` — Three.js selectorised lat-pulldown tower: plates lift, pulleys turn, cable and bar move; scroll drives camera and pin.
 - `media/video` — WebM (VP9) for every clip with an MP4 fallback for older iPhones. `media/poster` + `media/img` — WebP.
 - `fonts/` — self-hosted Tomorrow, Geist, JetBrains Mono. `js/vendor/` — GSAP, ScrollTrigger, Lenis, Three.js (no CDNs).
 
