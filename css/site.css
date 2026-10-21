@@ -761,10 +761,17 @@ html.menu-open .tdock,html.menu-open .fab,html.chat-open .tdock{opacity:0;pointe
   .swipe-bar i{position:absolute;inset:0 auto 0 0;width:var(--w,30%);background:var(--color-gold);border-radius:2px;transform:translateX(var(--x,0));transition:transform .12s linear}
   /* the cards inside each rail */
   .tracks.swipe .track{min-height:440px}
-  .apology__stage.swipe{gap:12px}
-  .apology__stage.swipe .apology__item{display:flex;flex-direction:column;gap:14px}
-  .apology__stage.swipe .apology__ph{aspect-ratio:4/5}
-  .apology__stage.swipe .apology__line{font-size:1.15rem}
+  /* the apology on phones: each reason is one self-contained photo card, the line set on the photo,
+     so a peeking neighbour shows only picture, never half a sentence */
+  .apology__stage.swipe{gap:12px;grid-auto-columns:84%;counter-reset:ap;margin-top:var(--space-lg)}
+  .apology__stage.swipe .apology__item{position:relative;display:block;aspect-ratio:4/5;border-radius:var(--radius-lg);overflow:hidden;background:var(--color-paper-2);counter-increment:ap;isolation:isolate}
+  .apology__stage.swipe .apology__ph{position:absolute;inset:0;aspect-ratio:auto;border-radius:0}
+  .apology__stage.swipe .apology__ph::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,oklch(10% .01 85 / .92) 0%,oklch(10% .01 85 / .55) 34%,transparent 62%)}
+  .apology__stage.swipe .apology__item::before{content:counter(ap,decimal-leading-zero) " / 06";position:absolute;top:12px;left:12px;z-index:2;padding:7px 10px;border-radius:var(--radius-pill);background:oklch(12% .01 85 / .6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);font:500 10.5px/1 var(--font-mono);letter-spacing:.14em;color:#fff}
+  .apology__stage.swipe .apology__line{position:absolute;left:18px;right:18px;bottom:18px;z-index:2;max-width:none;margin:0;font-size:clamp(1.15rem,5.4vw,1.4rem);line-height:1.12;color:#fff;text-wrap:balance}
+  .apology__stage.swipe .apology__line .gold{color:var(--color-gold)}
+  .apology__stage.swipe .apology__line{transition:opacity .35s var(--ease-out),transform .45s var(--ease-out)}
+  .apology__stage.swipe.is-tracked .apology__item:not(.is-cur) .apology__line{opacity:0;transform:translateY(10px)}
   .prog.swipe .prog__row{display:flex;flex-direction:column;gap:14px;padding:20px;border:1px solid var(--color-rule-soft);border-radius:var(--radius-lg);background:var(--color-paper-2)}
   .prog.swipe .prog__ph{order:-1;aspect-ratio:16/10}
   .prog.swipe .lede{font-size:var(--text-base)}

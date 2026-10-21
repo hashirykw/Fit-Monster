@@ -466,6 +466,12 @@
       r.after(bar); const i = bar.firstChild;
       const u = () => { const sw = r.scrollWidth, cw = r.clientWidth; if (!sw || sw <= cw + 2) { bar.style.visibility = 'hidden'; return; } bar.style.visibility = ''; const w = cw / sw; i.style.setProperty('--w', (w * 100).toFixed(2) + '%'); i.style.setProperty('--x', (r.scrollLeft / (sw - cw) * (1 / w - 1) * 100).toFixed(2) + '%'); };
       r.addEventListener('scroll', u, { passive: true }); addEventListener('resize', u); u();
+      /* the card that is mostly in view gets .is-cur, so a half-visible neighbour never shows half a sentence */
+      if ('IntersectionObserver' in window && r.classList.contains('apology__stage')) {
+        r.classList.add('is-tracked');
+        const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('is-cur', e.intersectionRatio > .6)), { root: r, threshold: [0, .6, 1] });
+        [...r.children].forEach(c => io.observe(c));
+      }
     });
   }
 
