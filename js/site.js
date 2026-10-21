@@ -112,6 +112,46 @@
     const st = { lv: 0, r: 0 };
     const paint = () => { const v = st.lv.toFixed(2); fill.style.setProperty('--lv', v); crest.style.setProperty('--lv', v); N.textContent = String(Math.round(st.lv)).padStart(3, '0'); };
     const fonts = Promise.race([document.fonts ? document.fonts.load('800 100px "Tomorrow"') : Promise.resolve(), new Promise(r => setTimeout(r, 1200))]);
+    /* the letters fill with live gym footage instead of gold: a canvas draws each letter where its span is,
+       then paints the video through it (source-in). Gold stays as the fallback until a video frame exists. */
+    let src = $('.hero video');
+    if (!src) {
+      src = document.createElement('video'); src.muted = true; src.playsInline = true; src.loop = true; src.preload = 'auto';
+      const wide = matchMedia('(min-width: 981px) and (min-aspect-ratio: 1/1)').matches;
+      src.src = 'media/video/' + (wide ? 'hero-wide' : 'hero-portrait') + (src.canPlayType('video/webm; codecs="vp9"') ? '.webm' : '.mp4');
+      src.play().catch(() => { });
+    }
+    const word = $('.ldr__word'), base = $$('.ldr__base span');
+    const cv = document.createElement('canvas'); cv.className = 'ldr__vid'; cv.setAttribute('aria-hidden', 'true');
+    word.insertBefore(cv, crest);
+    const cx = cv.getContext('2d');
+    let vidOn = false, raf = 0;
+    const draw = () => {
+      raf = requestAnimationFrame(draw);
+      if (!vidOn) { if (src.readyState >= 2 && src.videoWidth) { vidOn = true; word.classList.add('is-video'); } else return; }
+      const wr = word.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
+      if (!wr.width) return;
+      const W = Math.round(wr.width * dpr), H = Math.round(wr.height * dpr);
+      if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+      const cs = getComputedStyle(base[0]), fs = parseFloat(cs.fontSize);
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, wr.width, wr.height);
+      cx.globalCompositeOperation = 'source-over';
+      cx.font = `800 ${fs}px Tomorrow, sans-serif`; cx.textBaseline = 'alphabetic'; cx.fillStyle = '#fff';
+      const m = cx.measureText('M'), A = m.fontBoundingBoxAscent || fs * .8, D = m.fontBoundingBoxDescent || fs * .2;
+      const top = wr.height * (1 - st.lv / 100);
+      cx.save(); cx.beginPath(); cx.rect(0, top, wr.width, wr.height - top); cx.clip();
+      base.forEach(s => { const r = s.getBoundingClientRect(); const lh = r.height; cx.fillText(s.textContent, r.left - wr.left, r.top - wr.top + (lh - (A + D)) / 2 + A); });
+      cx.restore();
+      cx.globalCompositeOperation = 'source-in';
+      const vw = src.videoWidth, vh = src.videoHeight, sc = Math.max(wr.width / vw, wr.height / vh) * 1.08;
+      cx.filter = root.dataset.theme === 'light' ? 'brightness(1.12) contrast(1.08)' : 'brightness(1.75) contrast(1.12) saturate(1.1)';
+      cx.drawImage(src, (wr.width - vw * sc) / 2, (wr.height - vh * sc) / 2, vw * sc, vh * sc);
+      cx.filter = 'none';
+      cx.globalCompositeOperation = 'source-atop';
+      cx.fillStyle = 'rgba(244,194,27,.10)'; cx.fillRect(0, 0, wr.width, wr.height);
+    };
+    raf = requestAnimationFrame(draw);
+    const killV = () => cancelAnimationFrame(raf);
     const hv = $('.hero video');
     const video = hv ? Promise.race([new Promise(r => { if (hv.readyState >= 3) r(); else hv.addEventListener('canplay', r, { once: true }); }), new Promise(r => setTimeout(r, 2600))]) : Promise.resolve();
     return fonts.then(() => new Promise(res => {
@@ -141,7 +181,7 @@
         .to(stage, { scale: 46, duration: 1.25, ease: 'expo.in' }, 2.75)
         .add(() => { lock(false); res(); }, 3.55)
         .to(stage, { autoAlpha: 0, duration: .3 }, 3.75)
-        .add(kill, 4.1);
+        .add(() => { killV(); kill(); }, 4.1);
     }));
   }
 

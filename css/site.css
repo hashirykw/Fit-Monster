@@ -706,3 +706,7 @@ html.menu-open .tdock,html.menu-open .fab,html.chat-open .tdock{opacity:0;pointe
 :root[data-theme="light"] .ldr__fill span{background-image:linear-gradient(100deg,oklch(48% .11 70) 0%,oklch(70% .16 82) 18%,oklch(82% .16 88) 30%,oklch(64% .15 78) 46%,oklch(52% .12 72) 62%,oklch(76% .16 86) 78%,oklch(48% .11 70) 100%)}
 :root[data-theme="light"] .ldr__crest{box-shadow:0 0 18px 4px oklch(78% .16 85 / .55)}
 .fab{border-radius:99px}
+/* preloader letters filled with the gym video */
+.ldr__vid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.ldr__word.is-video .ldr__fill{opacity:0}
+.ldr__word.is-video .ldr__base{-webkit-text-stroke:1px color-mix(in oklch,var(--color-gold) 55%,transparent)}
