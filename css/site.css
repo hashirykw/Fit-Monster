@@ -710,3 +710,76 @@ html.menu-open .tdock,html.menu-open .fab,html.chat-open .tdock{opacity:0;pointe
 .ldr__vid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .ldr__word.is-video .ldr__fill{opacity:0}
 .ldr__word.is-video .ldr__base{-webkit-text-stroke:1px color-mix(in oklch,var(--color-gold) 55%,transparent)}
+
+/* =============================================================== reviews — the SMK rack: slats with upright names, one lifts and opens */
+.voices{grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr)}
+.rst__h{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.rst__nav{display:flex;gap:8px}
+.rst__nav .icon-btn{width:44px;height:44px;border-color:var(--color-rule)}
+.revrack{display:flex;align-items:stretch;gap:8px;margin-top:18px;min-height:440px}
+.revrack__c{position:relative;flex:0 0 74px;border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;text-align:left;padding:0;
+  border:1px solid var(--color-rule-soft);background:linear-gradient(155deg,color-mix(in oklch,var(--color-gold) 9%,var(--color-paper-2)),var(--color-paper-2));
+  transition:flex-basis .68s cubic-bezier(.24,.9,.28,1),transform .6s cubic-bezier(.34,1.56,.64,1),box-shadow .5s var(--ease-out),border-color .4s var(--ease-out)}
+.revrack__c.on{flex:1 1 auto;transform:translateY(-10px);border-color:color-mix(in oklch,var(--color-gold) 70%,transparent);z-index:2;box-shadow:var(--shadow-lift)}
+.revrack__c:focus-visible{outline:2px solid var(--color-focus);outline-offset:3px}
+.revrack__spine{position:absolute;inset:0;display:grid;place-items:center;transition:opacity .35s var(--ease-out)}
+.revrack__spine b{writing-mode:vertical-rl;transform:rotate(180deg);font:700 .92rem/1 var(--font-display);text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;color:var(--color-ink)}
+.revrack__c.on .revrack__spine{opacity:0}
+.revrack__body{position:absolute;inset:0;padding:28px 28px 24px;display:flex;flex-direction:column;justify-content:center;gap:16px;overflow-y:auto;overscroll-behavior:contain;
+  opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .4s var(--ease-out) .18s,transform .5s var(--ease-out) .18s}
+.revrack__c.on .revrack__body{opacity:1;transform:none;pointer-events:auto}
+.revrack__q{font:600 clamp(1.05rem,.8rem + .7vw,1.4rem)/1.45 var(--font-body);max-width:46ch;color:var(--color-ink)}
+.revrack__who{display:flex;align-items:center;gap:12px}
+.revrack__av{width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center;font:800 1.05rem/1 var(--font-display);background:color-mix(in oklch,var(--color-gold) 16%,transparent);color:var(--color-accent-text);border:1px solid var(--color-rule)}
+.revrack__who b{display:block;font-size:.94rem}
+.revrack__tag{display:inline-block;margin-top:5px;font:500 .62rem/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent-text);border:1px solid var(--color-rule);border-radius:99px;padding:5px 10px}
+.revrack__stars{color:var(--color-gold);font-size:.85rem;letter-spacing:.18em}
+.rst__dots{display:flex;gap:6px;justify-content:center;margin-top:18px}
+.rst__dots i{width:6px;height:6px;border-radius:99px;background:var(--color-rule);transition:width .4s var(--ease-out),background-color .4s}
+.rst__dots i.on{width:22px;background:var(--color-gold)}
+@media (min-width:901px) and (max-width:1180px){.revrack__c{flex:0 0 54px}.revrack__body{padding:22px}}
+@media (max-width:900px){
+  .voices{grid-template-columns:minmax(0,1fr);gap:var(--space-lg)}
+  .score b{font-size:clamp(4rem,22vw,6rem)}
+  .revrack{min-height:0;display:grid;touch-action:pan-y}
+  .revrack>*{grid-area:1/1}
+  .revrack__c{flex:none;width:100%;min-height:250px;transform:none;visibility:hidden;opacity:0;transition:opacity .45s var(--ease-out),visibility 0s .45s}
+  .revrack__c.on{transform:none;visibility:visible;opacity:1;transition:opacity .45s var(--ease-out)}
+  .revrack__spine{display:none}
+  .revrack__body{position:relative;inset:auto;opacity:1;transform:none;padding:22px 20px;pointer-events:auto;transition:none}
+  .revrack__q{font-size:1.02rem}
+}
+
+/* =============================================================== mobile: repeated cards become swipe rails, not long stacks */
+.swipe-bar{display:none}
+@media (max-width:760px){
+  .swipe{display:grid!important;grid-auto-flow:column;grid-auto-columns:82%;grid-template-columns:none!important;grid-auto-rows:auto;gap:12px;overflow-x:auto;overflow-y:hidden;
+    scroll-snap-type:x mandatory;overscroll-behavior-x:contain;margin-inline:calc(-1 * var(--gutter));padding:6px var(--gutter) 4px;scroll-padding-inline:var(--gutter);scrollbar-width:none;border-top:0}
+  .swipe::-webkit-scrollbar{display:none}
+  .swipe>*{scroll-snap-align:start;min-width:0;transform:none!important}
+  .swipe-bar{display:block;position:relative;height:2px;margin:14px 0 0;background:var(--color-rule-soft);border-radius:2px;overflow:hidden}
+  .swipe-bar i{position:absolute;inset:0 auto 0 0;width:var(--w,30%);background:var(--color-gold);border-radius:2px;transform:translateX(var(--x,0));transition:transform .12s linear}
+  /* the cards inside each rail */
+  .tracks.swipe .track{min-height:440px}
+  .apology__stage.swipe{gap:12px}
+  .apology__stage.swipe .apology__item{display:flex;flex-direction:column;gap:14px}
+  .apology__stage.swipe .apology__ph{aspect-ratio:4/5}
+  .apology__stage.swipe .apology__line{font-size:1.15rem}
+  .prog.swipe .prog__row{display:flex;flex-direction:column;gap:14px;padding:20px;border:1px solid var(--color-rule-soft);border-radius:var(--radius-lg);background:var(--color-paper-2)}
+  .prog.swipe .prog__ph{order:-1;aspect-ratio:16/10}
+  .prog.swipe .lede{font-size:var(--text-base)}
+  .steps.swipe{grid-auto-columns:70%}
+  .steps.swipe .step{margin:0;padding:20px;border:1px solid var(--color-rule-soft);border-radius:var(--radius-lg);background:var(--color-paper)}
+  .alt .steps.swipe .step{background:var(--color-paper)}
+  .principles.swipe .principle{padding:var(--space-lg) var(--space-md)}
+  .plans.swipe{grid-auto-columns:86%}
+  .plans.swipe .plan:hover{transform:none}
+  /* gallery: two columns instead of one long scroll */
+  .masonry{columns:2;column-gap:8px}
+  .tile{margin-bottom:8px;border-radius:var(--radius-md)}
+  .tile .tag{left:8px;top:8px;padding:5px 8px;font-size:9px}
+  .filters{flex-wrap:nowrap;overflow-x:auto;margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter);scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .filters .chip{flex:0 0 auto}
+}
+@media (max-width:760px){.head-card:not(.on){display:none}.lab__ctl .seg{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.lab__ctl .seg button{flex:0 0 auto}}

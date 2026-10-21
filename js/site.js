@@ -458,8 +458,39 @@
     els.forEach(e => io.observe(e));
   }
 
+
+  /* ------------------------------------------------------------ mobile swipe rails: a thin progress bar under each */
+  function swipes() {
+    $$('.swipe').forEach(r => {
+      const bar = document.createElement('div'); bar.className = 'swipe-bar'; bar.setAttribute('aria-hidden', 'true'); bar.innerHTML = '<i></i>';
+      r.after(bar); const i = bar.firstChild;
+      const u = () => { const sw = r.scrollWidth, cw = r.clientWidth; if (!sw || sw <= cw + 2) { bar.style.visibility = 'hidden'; return; } bar.style.visibility = ''; const w = cw / sw; i.style.setProperty('--w', (w * 100).toFixed(2) + '%'); i.style.setProperty('--x', (r.scrollLeft / (sw - cw) * (1 / w - 1) * 100).toFixed(2) + '%'); };
+      r.addEventListener('scroll', u, { passive: true }); addEventListener('resize', u); u();
+    });
+  }
+
+  /* ------------------------------------------------------------ reviews: the SMK rack — one card lifts, the rest stand as slats; cycles every 4.2 s */
+  function reviews() {
+    const rack = $('.revrack'); if (!rack) return;
+    const cards = $$('.revrack__c', rack), dots = $$('.rst__dots i'), count = $('[data-rev-count]'), n = cards.length;
+    let at = 0, timer = 0, held = false;
+    const place = () => { cards.forEach((c, j) => c.classList.toggle('on', j === at)); dots.forEach((d, j) => d.classList.toggle('on', j === at)); if (count) count.textContent = (at + 1) + ' of ' + n; };
+    const cycle = () => { clearTimeout(timer); if (held || n < 2 || RM) return; timer = setTimeout(() => { at = (at + 1) % n; place(); cycle(); }, 4200); };
+    const step = by => { at = (at + by + n) % n; place(); cycle(); };
+    cards.forEach((c, i) => c.addEventListener('click', () => { held = true; at = i; place(); clearTimeout(timer); setTimeout(() => { held = false; cycle(); }, 9000); }));
+    const nx = $('[data-rev-next]'), pv = $('[data-rev-prev]');
+    nx && nx.addEventListener('click', () => step(1)); pv && pv.addEventListener('click', () => step(-1));
+    rack.addEventListener('mouseenter', () => { held = true; clearTimeout(timer); });
+    rack.addEventListener('mouseleave', () => { held = false; cycle(); });
+    let sx = 0, sy = 0;
+    rack.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    rack.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) step(dx < 0 ? 1 : -1); }, { passive: true });
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? cycle() : clearTimeout(timer)), { threshold: .3 }).observe(rack);
+    place();
+  }
+
   /* ------------------------------------------------------------ boot */
-  bind(); theme(); smooth(); nav(); hero(); lightbox(); chat(); filters(); forms(); maps(); rails(); hoverPlay();
+  bind(); theme(); smooth(); nav(); hero(); lightbox(); chat(); filters(); forms(); maps(); rails(); hoverPlay(); swipes(); reviews();
   const L = Promise.all([loader(), curtain()]);
   reveals(L);
   L.then(() => { apology(); scenes(); if (ST) { ST.refresh(); if (document.fonts) document.fonts.ready.then(() => ST.refresh()); } });
