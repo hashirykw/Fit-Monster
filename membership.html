@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0f0e0c">
 <meta property="og:type" content="website"><meta property="og:title" content="Membership · Plans & enquiries · The Fit Monster, Karachi"><meta property="og:description" content="Membership at The Fit Monster, Nazimabad, Karachi: the full floor, a coach-written programme, or personal training. Today's rates on WhatsApp."><meta property="og:image" content="https://fitmonster.nexlyr.solutions/og.jpg"><meta property="og:url" content="https://fitmonster.nexlyr.solutions/membership"><meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.png" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="manifest" href="site.webmanifest">
-<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('fm-theme')||'dark';d.dataset.themePref=t;d.dataset.theme=t==='system'?(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'):t;if(!sessionStorage.getItem('fm-seen'))d.classList.add('ld-on');else if(sessionStorage.getItem('fm-pt'))d.classList.add('pt-on')}catch(e){}setTimeout(function(){if(!window.FM_BOOT)d.classList.remove('ld-on','pt-on')},6000)})();</script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var t=localStorage.getItem('fm-theme');if(t!=='light')t='dark';d.dataset.theme=t;if(!sessionStorage.getItem('fm-seen'))d.classList.add('ld-on');else if(sessionStorage.getItem('fm-pt'))d.classList.add('pt-on')}catch(e){}setTimeout(function(){if(!window.FM_BOOT)d.classList.remove('ld-on','pt-on')},6000)})();</script>
 <link rel="preload" href="fonts/tomorrow-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="media/img/logo-on-dark.webp" as="image" type="image/webp">
@@ -77,7 +77,7 @@
   </div>
 </section>
 
-<section class="sec night" aria-labelledby="wy-h">
+<section class="sec alt" aria-labelledby="wy-h">
   <div class="wrap">
     <div class="head"><p class="label" data-fade>Where the money goes</p><h2 class="h2" id="wy-h" data-rise>What you're paying for.</h2><p class="lede" data-fade>Quality, cleanliness and experience over cutting corners. In practice, that means four things.</p></div>
     <div class="principles principles--4"><article class="principle" data-fade style="--d:0ms"><p class="n">01</p><h3 class="h3">Equipment</h3><p>Hammer Strength and Nautilus, maintained and replaced, not patched.</p></article><article class="principle" data-fade style="--d:70ms"><p class="n">02</p><h3 class="h3">Cleanliness</h3><p>The first thing members mention in their reviews.</p></article><article class="principle" data-fade style="--d:140ms"><p class="n">03</p><h3 class="h3">Coaches</h3><p>On the floor to help everyone, not only the people who pay extra.</p></article><article class="principle" data-fade style="--d:210ms"><p class="n">04</p><h3 class="h3">Hours</h3><p>6:30 AM to 4 AM on five nights. Train when your life lets you.</p></article></div>
@@ -109,7 +109,7 @@
     <div class="foot__grid">
       <div>
         <div class="foot__logo" role="img" aria-label="The Fit Monster — Muscles Factory"></div>
-        <p class="small" style="margin-top:18px;max-width:34ch;color:var(--color-night-mute)" data-fm="address"></p>
+        <p class="small" style="margin-top:18px;max-width:34ch" data-fm="address"></p>
         <p class="status" data-status style="margin-top:18px"><i></i><span>Checking timings</span></p>
       </div>
       <div><h4>Explore</h4><ul><li><a href="index.html">Home</a></li><li><a href="training.html">Training</a></li><li><a href="floor.html">The Floor</a></li><li><a href="coaches.html">Coaches</a></li><li><a href="membership.html">Membership</a></li><li><a href="visit.html">Visit</a></li></ul></div>
@@ -133,13 +133,10 @@
   </div>
 </footer>
 
-<div class="tdock">
-  <button class="theme-b glass" type="button" aria-expanded="false" aria-controls="theme-pop"><span class="theme-b__sw" aria-hidden="true"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></span><span class="theme-b__t"><small>Theme</small><b data-theme-label>Dark</b></span></button>
-  <div class="theme-pop glass-strong" id="theme-pop" role="radiogroup" aria-label="Theme" aria-hidden="true">
-    <button type="button" role="radio" data-theme-set="dark" aria-checked="false"><i class="sw sw--dark" aria-hidden="true"></i><span>Dark</span></button>
-    <button type="button" role="radio" data-theme-set="light" aria-checked="false"><i class="sw sw--light" aria-hidden="true"></i><span>Light</span></button>
-    <button type="button" role="radio" data-theme-set="system" aria-checked="false"><i class="sw sw--auto" aria-hidden="true"></i><span>Auto</span></button>
-  </div>
+<div class="tdock glass" role="radiogroup" aria-label="Colour theme">
+  <span class="tdock__ind" aria-hidden="true"></span>
+  <button type="button" role="radio" data-theme-set="dark" aria-checked="true"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span>Dark</span></button>
+  <button type="button" role="radio" data-theme-set="light" aria-checked="false"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><span>Light</span></button>
 </div>
 <button class="fab glass" type="button" aria-expanded="false" aria-controls="chat"><img src="media/img/mark.webp" alt="" width="42" height="42"><i class="dot" aria-hidden="true"></i><b>Ask the front desk</b></button>
 <section class="chat glass-strong" id="chat" role="dialog" aria-label="Front desk chat" aria-hidden="true">

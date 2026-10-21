@@ -29,7 +29,7 @@
   --maxw:1440px;
 
   /* ---- shape ---- */
-  --radius-sm:10px; --radius-md:16px; --radius-lg:24px; --radius-xl:32px; --radius-pill:999px;
+  --radius-sm:6px; --radius-md:10px; --radius-lg:14px; --radius-xl:18px; --radius-pill:10px;
   --rule-hair:1px;
 
   /* ---- motion ---- */
@@ -70,6 +70,9 @@
   --glass-hi:oklch(100% 0 0 / .07);
   --shadow-lift:0 30px 60px -30px oklch(0% 0 0 / .7);
   --logo-src:url(../media/img/logo-on-dark.webp);
+  --ldr-bg:radial-gradient(70% 60% at 50% 50%,oklch(17% .02 80) 0%,oklch(12.5% .008 85) 70%);
+  --ldr-ghost:oklch(100% 0 0 / .06); --ldr-stroke:oklch(100% 0 0 / .16);
+  --mach-bg:radial-gradient(70% 70% at 70% 45%,oklch(22% .02 85),oklch(12.5% .008 85) 72%);
 }
 
 :root[data-theme="light"]{
@@ -92,4 +95,7 @@
   --glass-hi:oklch(100% 0 0 / .6);
   --shadow-lift:0 30px 60px -34px oklch(30% .03 80 / .45);
   --logo-src:url(../media/img/logo-on-light.webp);
+  --ldr-bg:radial-gradient(70% 60% at 50% 50%,oklch(99% .008 85) 0%,oklch(94% .014 85) 75%);
+  --ldr-ghost:oklch(20% .01 85 / .05); --ldr-stroke:oklch(20% .01 85 / .18);
+  --mach-bg:radial-gradient(70% 70% at 70% 45%,oklch(99% .006 85),oklch(91% .016 85) 75%);
 }

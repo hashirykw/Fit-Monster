@@ -43,31 +43,20 @@
 
   /* ------------------------------------------------------------ theme (circle wipe from the toggle) */
   function theme() {
-    const btn = $('.theme-b'), pop = $('.theme-pop'); if (!btn || !pop) return;
-    const mq = matchMedia('(prefers-color-scheme: light)');
-    const resolve = pref => pref === 'system' ? (mq.matches ? 'light' : 'dark') : pref;
-    const label = { dark: 'Dark', light: 'Light', system: 'Auto' };
-    const paint = () => {
-      const pref = root.dataset.themePref || 'dark';
-      $('[data-theme-label]', btn).textContent = label[pref];
-      $$('[data-theme-set]', pop).forEach(o => o.setAttribute('aria-checked', String(o.dataset.themeSet === pref)));
-    };
-    const apply = (pref, from) => {
-      const next = resolve(pref), changed = next !== root.dataset.theme;
-      const go = () => { root.dataset.themePref = pref; root.dataset.theme = next; store.set('fm-theme', pref); paint(); if (changed) window.dispatchEvent(new CustomEvent('fm:theme', { detail: next })); };
-      if (!changed || !document.startViewTransition || RM || !from) { go(); return; }
+    const dock = $('.tdock'); if (!dock) return;
+    const opts = $$('[data-theme-set]', dock);
+    const paint = () => opts.forEach(o => o.setAttribute('aria-checked', String(o.dataset.themeSet === root.dataset.theme)));
+    const apply = (next, from) => {
+      if (next === root.dataset.theme) return;
+      const go = () => { root.dataset.theme = next; root.dataset.themePref = next; store.set('fm-theme', next); paint(); window.dispatchEvent(new CustomEvent('fm:theme', { detail: next })); };
+      if (!document.startViewTransition || RM || !from) { go(); return; }
       const r = from.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
       const end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
       const t = document.startViewTransition(go);
-      t.ready.then(() => root.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] }, { duration: 750, easing: 'cubic-bezier(.65,0,.35,1)', pseudoElement: '::view-transition-new(root)' }));
+      t.ready.then(() => root.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] }, { duration: 700, easing: 'cubic-bezier(.65,0,.35,1)', pseudoElement: '::view-transition-new(root)' }));
     };
-    const set = on => { root.classList.toggle('theme-open', on); btn.setAttribute('aria-expanded', String(on)); pop.setAttribute('aria-hidden', String(!on)); pop.inert = !on; if (on) { const c = $('[aria-checked="true"]', pop); (c || $('button', pop)).focus({ preventScroll: true }); } };
-    pop.inert = true;
-    btn.addEventListener('click', e => { e.stopPropagation(); set(!root.classList.contains('theme-open')); });
-    $$('[data-theme-set]', pop).forEach(o => o.addEventListener('click', () => { apply(o.dataset.themeSet, btn); setTimeout(() => set(false), 160); }));
-    document.addEventListener('click', e => { if (root.classList.contains('theme-open') && !e.target.closest('.tdock')) set(false); });
-    addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('theme-open')) { set(false); btn.focus(); } });
-    mq.addEventListener && mq.addEventListener('change', () => { if (root.dataset.themePref === 'system') apply('system'); });
+    opts.forEach(o => o.addEventListener('click', () => apply(o.dataset.themeSet, o)));
+    dock.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { const n = root.dataset.theme === 'dark' ? 'light' : 'dark'; apply(n, $(`[data-theme-set="${n}"]`, dock)); $(`[data-theme-set="${n}"]`, dock).focus(); } });
     paint();
   }
 
