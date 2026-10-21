@@ -351,6 +351,24 @@ html.pt-on .curtain__t span{transform:none}
 .foot__meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--space-sm);margin-top:var(--space-xl);font:500 11px/1.5 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--color-muted)}
 .foot .nxb{margin-top:var(--space-lg)}
 @media (max-width:900px){.foot__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.foot__grid>div:first-child{grid-column:1/-1}}
+/* phones: a short footer, about a third of the desktop stack. The menu already carries the page links,
+   so Explore and Train drop out; contact becomes one row of links beside the logo */
+@media (max-width:760px){
+  .foot{padding:28px 0 calc(92px + env(safe-area-inset-bottom,0px))}
+  .foot__say{font-size:clamp(1.7rem,8.4vw,2.2rem);line-height:.92}
+  .foot__grid{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:16px;padding-top:16px}
+  .foot__grid>div:nth-child(2),.foot__grid>div:nth-child(4),.foot__grid [data-fm="address"]{display:none}
+  .foot__grid>div:first-child{display:flex;align-items:center;gap:12px;grid-column:auto}
+  .foot__logo{width:104px;height:42px}
+  .foot__grid>div:first-child .status{margin-top:0!important;font-size:11px}
+  .foot__grid>div:nth-child(3){flex:1 1 100%}
+  .foot__grid>div:nth-child(3) h4{display:none}
+  .foot__grid>div:nth-child(3) ul{display:flex;flex-wrap:wrap;gap:8px}
+  .foot__grid>div:nth-child(3) ul a{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid var(--color-rule);border-radius:var(--radius-pill);font-size:12.5px;opacity:1}
+  .foot .nxb{margin-top:14px}
+  .foot__meta{margin-top:12px;font-size:9.5px}
+  .foot__meta>span:last-child{display:none}
+}
 
 /* =============================================================== chat (front desk) */
 .fab{position:fixed;z-index:130;right:max(var(--gutter),env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:10px;height:58px;padding:0 20px 0 8px;border-radius:var(--radius-pill);color:var(--color-ink);
