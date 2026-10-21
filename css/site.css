@@ -641,19 +641,36 @@ html.chat-open .chat{opacity:1;visibility:visible;transform:none;transition:opac
   .mach__read dd{font-size:1.2rem}
 }
 
-/* =============================================================== bottom-left theme switch (segmented row) */
-.tdock{position:fixed;z-index:130;left:max(var(--gutter),env(safe-area-inset-left,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:12px;
-  transition:opacity var(--dur-short) var(--ease-out),transform var(--dur-long) var(--ease-out)}
-.tdock__ind{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:9px;background:var(--color-ink);transition:transform var(--dur-long) var(--ease-out)}
-:root[data-theme="light"] .tdock__ind{transform:translateX(100%)}
-.tdock button{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;min-width:92px;padding:0 14px;border-radius:9px;font-size:var(--text-sm);font-weight:600;color:var(--color-muted);transition:color var(--dur-short) var(--ease-out)}
-.tdock button svg{width:17px;height:17px}
-.tdock button[aria-checked="true"]{color:var(--color-paper)}
-.tdock button:hover:not([aria-checked="true"]){color:var(--color-ink)}
-.tdock button:focus-visible{outline:2px solid var(--color-focus);outline-offset:2px}
-.tdock .i-sun,.tdock .i-moon{display:block}
+/* =============================================================== theme switch — the SMK pill (soft pill, raised knob, sun left / moon right) */
+.tdock{position:fixed;z-index:130;left:max(var(--gutter),env(safe-area-inset-left,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));transition:opacity var(--dur-short) var(--ease-out),transform var(--dur-long) var(--ease-out)}
 html.ld-on .tdock{opacity:0}
-@media (max-width:520px){.tdock button{min-width:0;height:42px;padding:0 12px}.fab{height:52px}.fab img{width:38px;height:38px}}
+.tpill2{position:relative;width:118px;height:44px;border-radius:99px;padding:0;display:flex;align-items:center;overflow:hidden;cursor:pointer;
+  background:linear-gradient(145deg,#F2EFEA,#E4E0D9);
+  box-shadow:6px 6px 14px rgba(8,18,38,.13),-5px -5px 12px rgba(255,255,255,.9),inset 0 0 0 1px rgba(255,255,255,.5);
+  transition:background .45s var(--ease-out),box-shadow .45s var(--ease-out)}
+.tpill2__lab{position:absolute;font:800 .6rem/1.12 var(--font-body);letter-spacing:.05em;text-transform:uppercase;transition:opacity .3s var(--ease-out)}
+.tpill2__lab--l{left:14px;color:#6B7280;opacity:1}
+.tpill2__lab--d{right:13px;color:#E8EAEE;opacity:0;text-align:right}
+.tpill2__k{position:absolute;top:4px;left:4px;width:36px;height:36px;border-radius:50%;transform:translateX(74px);display:grid;place-items:center;color:#6B7280;
+  background:linear-gradient(145deg,#FFF,#E9E5DE);box-shadow:3px 3px 8px rgba(8,18,38,.18),-3px -3px 7px rgba(255,255,255,.95);
+  transition:transform .42s cubic-bezier(.34,1.56,.64,1),background .45s var(--ease-out),color .45s var(--ease-out),width .2s var(--ease-out)}
+.tpill2__k svg{width:19px;height:19px;position:absolute;transition:opacity .3s var(--ease-out),transform .42s var(--ease-out)}
+.tpill2__moon{opacity:0;transform:rotate(-45deg) scale(.7)}
+:root:not([data-theme="light"]) .tpill2{background:linear-gradient(145deg,#3A3B40,#26272B);box-shadow:6px 6px 16px rgba(0,0,0,.45),-4px -4px 12px rgba(255,255,255,.05),inset 0 0 0 1px rgba(255,255,255,.06)}
+:root:not([data-theme="light"]) .tpill2__lab--l{opacity:0}
+:root:not([data-theme="light"]) .tpill2__lab--d{opacity:1}
+:root:not([data-theme="light"]) .tpill2__k{transform:translateX(0);color:#2B2C30;background:linear-gradient(145deg,#FFF,#DFDCD6);box-shadow:-3px 3px 9px rgba(0,0,0,.4),3px -3px 7px rgba(255,255,255,.12)}
+:root:not([data-theme="light"]) .tpill2__sun{opacity:0;transform:rotate(45deg) scale(.7)}
+:root:not([data-theme="light"]) .tpill2__moon{opacity:1;transform:none}
+.tpill2:active .tpill2__k{width:40px;border-radius:99px}
+.tpill2:focus-visible{outline:2px solid var(--color-focus);outline-offset:3px}
+@media (max-width:860px){
+  .tpill2{width:104px;height:40px}
+  .tpill2__k{width:32px;height:32px;transform:translateX(64px)}
+  .tpill2__k svg{width:17px;height:17px}
+  .tpill2__lab{font-size:.55rem}.tpill2__lab--l{left:11px}.tpill2__lab--d{right:10px}
+}
+@media (max-width:520px){.fab{height:52px}.fab img{width:38px;height:38px}}
 
 /* =============================================================== video fills */
 .phero__in{grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);align-items:end}
@@ -688,3 +705,4 @@ html.menu-open .tdock,html.menu-open .fab,html.chat-open .tdock{opacity:0;pointe
 .alt .reel{background:var(--color-paper-3)}
 :root[data-theme="light"] .ldr__fill span{background-image:linear-gradient(100deg,oklch(48% .11 70) 0%,oklch(70% .16 82) 18%,oklch(82% .16 88) 30%,oklch(64% .15 78) 46%,oklch(52% .12 72) 62%,oklch(76% .16 86) 78%,oklch(48% .11 70) 100%)}
 :root[data-theme="light"] .ldr__crest{box-shadow:0 0 18px 4px oklch(78% .16 85 / .55)}
+.fab{border-radius:99px}

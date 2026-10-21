@@ -43,20 +43,17 @@
 
   /* ------------------------------------------------------------ theme (circle wipe from the toggle) */
   function theme() {
-    const dock = $('.tdock'); if (!dock) return;
-    const opts = $$('[data-theme-set]', dock);
-    const paint = () => opts.forEach(o => o.setAttribute('aria-checked', String(o.dataset.themeSet === root.dataset.theme)));
-    const apply = (next, from) => {
-      if (next === root.dataset.theme) return;
-      const go = () => { root.dataset.theme = next; root.dataset.themePref = next; store.set('fm-theme', next); paint(); window.dispatchEvent(new CustomEvent('fm:theme', { detail: next })); };
-      if (!document.startViewTransition || RM || !from) { go(); return; }
-      const r = from.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+    const btn = $('[data-theme-btn]'); if (!btn) return;
+    const paint = () => { const t = root.dataset.theme; btn.setAttribute('aria-checked', String(t !== 'light')); btn.setAttribute('aria-label', t === 'light' ? 'Switch to dark mode' : 'Switch to light mode'); };
+    btn.addEventListener('click', () => {
+      const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+      const go = () => { root.dataset.theme = next; store.set('fm-theme', next); paint(); window.dispatchEvent(new CustomEvent('fm:theme', { detail: next })); };
+      if (!document.startViewTransition || RM) { go(); return; }
+      const r = $('.tpill2__k', btn).getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
       const end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
       const t = document.startViewTransition(go);
       t.ready.then(() => root.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] }, { duration: 700, easing: 'cubic-bezier(.65,0,.35,1)', pseudoElement: '::view-transition-new(root)' }));
-    };
-    opts.forEach(o => o.addEventListener('click', () => apply(o.dataset.themeSet, o)));
-    dock.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { const n = root.dataset.theme === 'dark' ? 'light' : 'dark'; apply(n, $(`[data-theme-set="${n}"]`, dock)); $(`[data-theme-set="${n}"]`, dock).focus(); } });
+    });
     paint();
   }
 

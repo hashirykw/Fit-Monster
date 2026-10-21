@@ -166,10 +166,15 @@
   </div>
 </footer>
 
-<div class="tdock glass" role="radiogroup" aria-label="Colour theme">
-  <span class="tdock__ind" aria-hidden="true"></span>
-  <button type="button" role="radio" data-theme-set="dark" aria-checked="true"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><span>Dark</span></button>
-  <button type="button" role="radio" data-theme-set="light" aria-checked="false"><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg><span>Light</span></button>
+<div class="tdock">
+  <button class="tpill2" type="button" data-theme-btn role="switch" aria-checked="true" aria-label="Switch to light mode">
+    <span class="tpill2__lab tpill2__lab--l">Light<br>mode</span>
+    <span class="tpill2__lab tpill2__lab--d">Dark<br>mode</span>
+    <span class="tpill2__k" aria-hidden="true">
+      <svg class="tpill2__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2.6v2.4M12 19v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.6 12H5M19 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+      <svg class="tpill2__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.2A8.6 8.6 0 1 1 10.4 3.6a6.8 6.8 0 0 0 10.1 10.6z"/><path d="M16.6 4.4l.5 1.3 1.3.5-1.3.5-.5 1.3-.5-1.3-1.3-.5 1.3-.5z"/></svg>
+    </span>
+  </button>
 </div>
 <button class="fab glass" type="button" aria-expanded="false" aria-controls="chat"><img src="media/img/mark.webp" alt="" width="42" height="42"><i class="dot" aria-hidden="true"></i><b>Ask the front desk</b></button>
 <section class="chat glass-strong" id="chat" role="dialog" aria-label="Front desk chat" aria-hidden="true">
