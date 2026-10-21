@@ -32,7 +32,7 @@ Static HTML/CSS/JS, no build step. Deploys to Vercel as-is (`vercel.json` turns 
 - [ ] Plan names on Membership (Floor / Personal training / Floor + plan) and what each includes.
 - [ ] Coach names (none are shown yet — nothing was invented). Owais Baloch is named in a member's Google review quote.
 - [ ] Whether personal training includes diet guidance.
-- [ ] Domain: sitemap, canonical tags and OG image use `https://fitmonster.nexlyr.solutions` — change in `sitemap.xml`, `robots.txt` and the page heads if it goes elsewhere.
+- [ ] Domain: sitemap, canonical tags and OG image use `https://fit-monster.nexlyr.solutions` — change in `sitemap.xml`, `robots.txt` and the page heads if it goes elsewhere.
 
 Facts on the site (address, timings, 4.7★ from 140 Google reviews, review quotes) come from the gym's Google listing, Oct 2026. Campaign lines are from their own posts, with typos fixed.
 

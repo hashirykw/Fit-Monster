@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://fitmonster.nexlyr.solutions/sitemap.xml
+Sitemap: https://fit-monster.nexlyr.solutions/sitemap.xml
